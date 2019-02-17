@@ -16,10 +16,10 @@ Supported fields:
               Same format as begin_date
     category: specify a regex to filter by category
        notes: specify a regex to filter by notes
-     exp_min: specify minimum expense value
-     exp_max: specify maximum expense value
-     inc_min: specify minimum income_value
-     inc_max: specify maximum income_value
+     account: specify a regex to filter by account name
+     amt_min: specify minimum amount value
+     amt_max: specify maximum amount value
+  NOTE: regex is case insensitive
 """)
 
 
