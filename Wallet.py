@@ -2,13 +2,14 @@ import csv
 import re
 from datetime import datetime
 from WalletItem import WalletItem
+from typing import List
 
 
 class Wallet:
     def __init__(self):
-        self.items = []
+        self.items: List[WalletItem] = []
 
-    def import_csv(self, filename):
+    def import_csv(self, filename: str):
         with open(filename, 'r') as file:
             reader = csv.reader(file, delimiter=',', quotechar='"')
             next(reader, None)  # skip first row
@@ -23,20 +24,14 @@ class Wallet:
                 else:
                     amount = amount_value
 
-                self.items.append(WalletItem(
-                    date=date,
-                    account=account,
-                    category=category,
-                    notes=notes,
-                    amount=amount))
+                self.items.append(WalletItem(date=date, account=account, category=category, notes=notes, amount=amount))
         self.items.sort(key=lambda x: x.date)
 
-    def filter_items(self, summarize=False, filter_data=None):
+    def filter_items(self, filter_data=None) -> List[WalletItem]:
         """
         Filter items and display them.
-        :param summarize: boolean value indicating whether to summarize the results or not
         :param filter_data: filter data used to filter the items
-        :return:
+        :return: a list containing the filtered items
         """
         filtered_items = self.items
         if filter_data:
@@ -70,12 +65,21 @@ class Wallet:
                 except ValueError as ex:
                     print(ex)
                     exit(1)
+        return filtered_items
+
+    @staticmethod
+    def print_items(items_list: List[WalletItem], summarize=False):
+        """
+        :param items_list: items to print
+        :param summarize: if True, don't print each item, only the totals
+        :return: None
+        """
         expense_sum = 0
         income_sum = 0
         if not summarize:
             print("{:10s} {:20s} {:20s} {:30s} {:>10s}".format("Date", "Account", "Category", "Notes", "Amount"))
             print("-" * 94)
-        for item in filtered_items:
+        for item in items_list:
             if item.amount < 0:
                 expense_sum += abs(item.amount)
             else:
@@ -94,7 +98,8 @@ class Wallet:
 
         format_str = "{:>82s}: "
         if savings < 0:
-            format_str += "\033[0;31m{:10.2f}\033[0m"
+            format_str += "\033[0;31m"  # ANSI red
         else:
-            format_str += "\033[0;32m{:10.2f}\033[0m"
+            format_str += "\033[0;32m"  # ANSI green
+        format_str += '{:10.2f}\033[0m'
         print(format_str.format("SAVINGS", savings))

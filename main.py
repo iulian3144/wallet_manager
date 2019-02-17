@@ -28,7 +28,8 @@ def main():
     csv_file = args.csv_file
     wallet = Wallet()
     wallet.import_csv(csv_file)
-    wallet.filter_items(summarize=args.summarize, filter_data=args.filter)
+    filtered_items = wallet.filter_items(filter_data=args.filter)
+    wallet.print_items(filtered_items, summarize=args.summarize)
 
 
 if __name__ == '__main__':

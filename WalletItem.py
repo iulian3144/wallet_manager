@@ -7,9 +7,9 @@ class WalletItem:
       0 - expense
       1 - income
     """
-    def __init__(self, amount, date, notes="", category="", account=""):
+    def __init__(self, amount: float, date: datetime, notes: str = "", category: str = "", account: str = ""):
         """
-        :param amount: income value
+        :param amount: income if >= 0, expense otherwise
         :param notes: notes string
         :param category: category name
         """
@@ -22,12 +22,10 @@ class WalletItem:
     def __str__(self):
         format_str = '{:10s} {:20s} {:20s} {:30s} '
         if self.amount < 0:
-            format_str += '\033[0;31m{:10.2f}\033[0m'
+            format_str += '\033[0;31m'  # ANSI red
         else:
-            format_str += '\033[0;32m{:10.2f}\033[0m'
+            format_str += '\033[0;32m'  # ANSI green
+        format_str += '{:10.2f}\033[0m'
         return format_str.format(
-            self.date.strftime('%d/%m/%Y'),
-            self.account,
-            self.category,
-            self.notes[:30],
-            self.amount)
+            self.date.strftime('%d/%m/%Y'), self.account,
+            self.category, self.notes[:30], self.amount)
