@@ -1,0 +1,11 @@
+--- termcolor-orig.py	2019-02-17 18:55:05.534457154 +0200
++++ termcolor.py	2019-02-17 18:52:54.470015784 +0200
+@@ -100,7 +100,7 @@
+         colored('Hello, World!', 'red', 'on_grey', ['blue', 'blink'])
+         colored('Hello, World!', 'green')
+     """
+-    if os.getenv('ANSI_COLORS_DISABLED') is None:
++    if os.getenv('ANSI_COLORS_DISABLED') is None and sys.stdout.isatty():
+         fmt_str = '\033[%dm%s'
+         if color is not None:
+             text = fmt_str % (COLORS[color], text)
