@@ -1,3 +1,5 @@
 [x] separate code in different files
 [x] use only one field (amount) instead of two (expense, income); negative for expense, positive for income
 [x] add a member to store the account name for the WalletItem class
+[x] add sort-by option
+[x] use termcolor to output colored text

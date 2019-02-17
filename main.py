@@ -21,6 +21,15 @@ Supported fields:
      amt_max: specify maximum amount value
   NOTE: regex is case insensitive
 """)
+parser.add_argument('--sort-by', metavar='SORTBY', dest='sortby', default='date',
+                    help="""Specify item field to sort by.
+Supported fields:
+  amount: sort by item amount value
+    date: sort by item date (default)
+   notes: sort by item notes string
+category: sort by item category
+ account: sort by item account
+""")
 
 
 def main():
@@ -28,8 +37,10 @@ def main():
     csv_file = args.csv_file
     wallet = Wallet()
     wallet.import_csv(csv_file)
-    filtered_items = wallet.filter_items(filter_data=args.filter)
-    wallet.print_items(filtered_items, summarize=args.summarize)
+    # build filter dictionary
+    filter_data = dict(item.split(':') for item in args.filter.split(','))
+    filtered_items = wallet.filter_items(filter_data=filter_data)
+    wallet.print_items(filtered_items, summarize=args.summarize, sortby=args.sortby)
 
 
 if __name__ == '__main__':
