@@ -1,5 +1,5 @@
 # Wallet Manager
-This script allows you to generate useful reports out of a CSV file
+This script allows you to be cool and generate useful reports out of a CSV file
 storing transaction details in the following format:
 ```
 Date,Account,Category,Note,Amount,Debit
